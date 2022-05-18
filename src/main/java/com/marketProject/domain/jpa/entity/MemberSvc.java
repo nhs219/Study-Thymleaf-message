@@ -7,7 +7,7 @@ import java.time.LocalDate;
 @Table(name = "member_svc")
 public class MemberSvc extends BaseEntity{
     @Id @Column(name = "member_id")
-    @OneToOne
+//    @OneToOne
     private Long id;
     private LocalDate updatePwdDate;
     private LocalDate updateGradeDate;

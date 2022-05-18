@@ -3,6 +3,8 @@ package com.marketProject.domain.jpa.entity;
 import com.marketProject.domain.member.OrderStatus;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
@@ -11,6 +13,9 @@ import java.time.LocalDateTime;
 public class Order {
     private String code;
     private Long memberId;
+
+    @ManyToOne
+    @JoinColumn(name = "coupon_code")
     private String couponCode;
     private LocalDateTime order_datetime;
     private Integer deliveryPrice;

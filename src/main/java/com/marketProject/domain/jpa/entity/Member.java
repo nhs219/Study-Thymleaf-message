@@ -9,14 +9,15 @@ import javax.validation.constraints.Email;
 @Table(name = "member")
 public class Member {
     @Id @Column(name = "member_id")
-    @OneToOne(fetch = FetchType.EAGER) // 실무에서는 즉시로딩 지양. 지연로딩을 쓰는 것이 좋다. 작은 프로젝트는 써도 됨.
-    @JoinColumn(name = "member_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @OneToOne(fetch = FetchType.EAGER) // 실무에서는 즉시로딩 지양. 지연로딩을 쓰는 것이 좋다.
+//    @JoinColumn(name = "member_id")
     private Long id;
     private String email;
     private String password;
     private String name;
     private String phone;
-    private String address;
+    private String address; //주소를 나중에 수정할 지 고민해보기
     @Enumerated(EnumType.STRING)
     private Grade grade;
 

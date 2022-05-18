@@ -7,7 +7,7 @@ import javax.persistence.Id;
 @Entity
 public class Company extends BaseEntity{
     @Id
-    @Column(name = "company_name")
+    @Column(name = "company_id")
     private Long id;
     private String name;
     private String phone;
