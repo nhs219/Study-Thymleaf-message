@@ -1,7 +1,6 @@
 package com.marketProject.domain.member;
 
 import com.marketProject.domain.jpa.entity.Member;
-import com.marketProject.domain.jpa.entity.MemberSvc;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
