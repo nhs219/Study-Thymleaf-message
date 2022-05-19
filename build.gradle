@@ -22,8 +22,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
-//	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.6.7'
+//	 https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.6.7'
 
 	// swagger
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'

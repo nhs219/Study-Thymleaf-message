@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemberRepositoryTest {
 
     @Autowired MemberRepository memberRepository;
+    @Autowired PasswordEncoder passwordEncoder;
 
     @Test
     @Transactional
@@ -26,9 +27,11 @@ class MemberRepositoryTest {
     void testMember() throws Exception {
         //given
         Member member = new Member();
-        member.setPassword("memberA");
+        String password = "memberA";
+
+        member.setPassword(passwordEncoder.encode("password"));
         member.setEmail("test@test.com");
-        member.setAddress("서울");
+//        member.setAddress("서울");
         member.setName("spring");
         member.setPhone("01000001111");
         member.setGrade(Grade.FAMILY);
@@ -38,6 +41,7 @@ class MemberRepositoryTest {
 
         //then
         Assertions.assertThat(member.getId()).isEqualTo(findMember.getId());
+
     }
 
 }
