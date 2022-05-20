@@ -1,79 +1,45 @@
 package com.marketProject.domain.jpa.entity;
 
 import com.marketProject.domain.member.Grade;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
+import java.util.ArrayList;
+import java.util.List;
 
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.*;
+
+/**
+ * 연관관계는 무조건 지연로딩으로 설정(EAGER는 예측이 어렵고, 어떤 SQL이 실행될지 추적하기 어렵다.)
+ * 만약 엔티티를 함께 조회하고싶으면, fetch join 또는 연관관계 그래프 기능 사용
+ * XToOne(OneToOne, ManyToOne)관계는 default가 즉시로딩이어서 지연로딩으로 설정하여야 한다.
+ */
 @Entity
-@Table(name = "member")
+@Getter @Setter
 public class Member {
-    @Id @Column(name = "member_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @OneToOne(fetch = FetchType.EAGER) // 실무에서는 즉시로딩 지양. 지연로딩을 쓰는 것이 좋다.
-//    @JoinColumn(name = "member_id")
+    @Id @GeneratedValue
+    @Column(name = "member_id")
     private Long id;
+
+    @OneToOne(mappedBy = "member", fetch = LAZY, cascade = ALL)
+    private MemberSvc memberSvc;
+
     private String email;
+
     private String password;
+
     private String name;
+
     private String phone;
-    private String address; //주소를 나중에 수정할 지 고민해보기
+
+    @Embedded
+    private Address address;
+
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Grade getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Grade grade) {
-        this.grade = grade;
-    }
+    @OneToMany(mappedBy = "member", cascade = ALL) //cascade.ALL로 해놓으면 persist 여러번 할 걸 한번만 해도 됨
+    private List<Order> orders = new ArrayList<>();
 }

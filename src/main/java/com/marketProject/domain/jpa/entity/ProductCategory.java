@@ -5,17 +5,22 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter @Setter
-public class Cart extends BaseEntity{
+public class ProductCategory {
+
     @Id @GeneratedValue
-    @Column(name = "cart_id")
-    private Long id;
+    @Column(name = "product_category_id")
+    private Long Id;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "product_code")
     private Product product;
-    private Long memberId;
-    private Integer quantity;
+
+    @ManyToOne (fetch = LAZY)
+    @JoinColumn(name = "category_code")
+    private Category category;
+
 }

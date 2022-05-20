@@ -1,52 +1,28 @@
 package com.marketProject.domain.jpa.entity;
 
-import javax.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+
+import static javax.persistence.FetchType.*;
 
 @Entity
+@Getter @Setter
 public class OrderDetail {
+    @Id @GeneratedValue
+    @Column(name = "order_detail_id")
     private Long id;
-    private String orderCode;
-    private String productCode;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "order_code")
+    private Order order;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "product")
+    private Product product;
+
     private Integer quantity;
+
     private Long price;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getOrderCode() {
-        return orderCode;
-    }
-
-    public void setOrderCode(String orderCode) {
-        this.orderCode = orderCode;
-    }
-
-    public String getProductCode() {
-        return productCode;
-    }
-
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Long getPrice() {
-        return price;
-    }
-
-    public void setPrice(Long price) {
-        this.price = price;
-    }
 }
