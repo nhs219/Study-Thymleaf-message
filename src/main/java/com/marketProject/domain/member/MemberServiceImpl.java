@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService{
         Member member = new Member();
         member.setPassword(memberVo.getPassword());
         member.setEmail(memberVo.getEmail());
-        member.setAddress(memberVo.getAddress());
+//        member.setAddress(memberVo.getAddress());
         member.setPhone(memberVo.getPhone());
         member.setGrade(Grade.FAMILY);
 

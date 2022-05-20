@@ -1,4 +1,4 @@
-package com.marketProject.domain.jpa.Repository;
+package com.marketProject.domain.jpa.repository;
 
 import com.marketProject.domain.jpa.entity.Member;
 import com.marketProject.domain.member.Grade;
@@ -11,8 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

@@ -1,4 +1,4 @@
-package com.marketProject.domain.jpa.Repository;
+package com.marketProject.domain.jpa.repository;
 
 import com.marketProject.domain.jpa.entity.Member;
 import org.springframework.stereotype.Repository;
