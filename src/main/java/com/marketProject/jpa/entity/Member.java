@@ -1,10 +1,13 @@
-package com.marketProject.domain.jpa.entity;
+package com.marketProject.jpa.entity;
 
 import com.marketProject.domain.member.Grade;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +21,9 @@ import static javax.persistence.FetchType.*;
  */
 @Entity
 @Getter @Setter
+@RequiredArgsConstructor
 public class Member {
+
     @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
@@ -26,14 +31,14 @@ public class Member {
     @OneToOne(mappedBy = "member", fetch = LAZY, cascade = ALL)
     private MemberSvc memberSvc;
 
+    @NotEmpty
     private String email;
-
+    @NotEmpty
     private String password;
-
+    @NotEmpty
     private String name;
-
+    @NotEmpty
     private String phone;
-
     @Embedded
     private Address address;
 
@@ -42,4 +47,5 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = ALL) //cascade.ALL로 해놓으면 persist 여러번 할 걸 한번만 해도 됨
     private List<Order> orders = new ArrayList<>();
+
 }

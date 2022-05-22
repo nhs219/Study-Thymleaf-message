@@ -1,6 +1,6 @@
-package com.marketProject.domain.jpa.repository;
+package com.marketProject.jpa.repository;
 
-import com.marketProject.domain.jpa.entity.Member;
+import com.marketProject.jpa.entity.Member;
 import com.marketProject.domain.member.Grade;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ class MemberRepositoryTest {
 
     @Test
     @Transactional
-    @Rollback(value = false)
+    @Rollback(false)
     void testMember() throws Exception {
         //given
         Member member = new Member();
@@ -29,13 +29,12 @@ class MemberRepositoryTest {
 
         member.setPassword(passwordEncoder.encode("password"));
         member.setEmail("test@test.com");
-//        member.setAddress("서울");
         member.setName("spring");
         member.setPhone("01000001111");
         member.setGrade(Grade.FAMILY);
         //when
         Long saveId = memberRepository.save(member);
-        Member findMember = memberRepository.find(saveId);
+        Member findMember = memberRepository.findOne(saveId);
 
         //then
         Assertions.assertThat(member.getId()).isEqualTo(findMember.getId());
