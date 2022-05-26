@@ -33,7 +33,7 @@ class MemberRepositoryTest {
         member.setPhone("01000001111");
         member.setGrade(Grade.FAMILY);
         //when
-        Long saveId = memberRepository.save(member);
+        Long saveId = memberRepository.save(member).getId();
         Member findMember = memberRepository.findOne(saveId);
 
         //then

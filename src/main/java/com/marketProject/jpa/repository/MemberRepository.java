@@ -15,10 +15,10 @@ public class MemberRepository {
     private final EntityManager em;
     private final PasswordEncoder passwordEncoder;
 
-    public Long save(Member member) {
+    public Member save(Member member) {
         member.setPassword(passwordEncoder.encode(member.getPassword())); // 비밀번호 암호화 해서 insert
         em.persist(member);
-        return member.getId();
+        return member;
     }
 
     public Member findOne(Long id) {
@@ -26,7 +26,9 @@ public class MemberRepository {
     }
 
     public List<Member> findAll() {
-        return em.createQuery("select m from Member m", Member.class)
+        return em.createQuery("select m from Member m " +
+                                        "join m.memberSvc ms " +
+                                        "where ms.deleteDatetime is null", Member.class)
                 .getResultList();
     }
 

@@ -1,19 +1,20 @@
 package com.marketProject.service;
 
-import com.marketProject.domain.member.Grade;
+import com.marketProject.controller.member.UpdateMemberRequest;
 import com.marketProject.domain.member.Login;
+import com.marketProject.jpa.entity.Address;
 import com.marketProject.jpa.entity.Member;
 import com.marketProject.jpa.repository.MemberRepository;
 import com.marketProject.jpa.repository.MemberSvcRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +26,7 @@ public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
     private final MemberSvcRepository memberSvcRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public ResponseEntity<String> login(Login login) {
@@ -44,13 +46,49 @@ public class MemberServiceImpl implements MemberService{
     public Member join(Member member) {
         // 중복 회원 검증
         validateDuplicateMember(member);
-
         // 회원 등록
-        member.setGrade(Grade.FAMILY);
-        memberRepository.save(member);
+        member.joinMember(member);
+        return memberRepository.save(member);
+    }
 
-        // 응답
+    @Transactional
+    public Member updateMember(Long id, UpdateMemberRequest request) {
+        Member member = memberRepository.findOne(id);
+
+        // if를 controller단에 둬야하나??
+        if (request.getName() != null) {
+            member.setName(request.getName());
+        }
+        if (request.getPhone() != null) {
+            member.setPhone(request.getPhone());
+        }
+
+        if (request.getZipcode() != null
+                || request.getStreet() != null
+                || request.getDetailAddress() != null) {
+            member.setAddress(new Address(request.getZipcode(), request.getStreet(), request.getDetailAddress()));
+        }
+
+        if (request.getPassword() != null) {
+            member.setPassword(passwordEncoder.encode(member.getPassword()));
+            member.getMemberSvc().setUpdatePwdDate(LocalDate.now());
+        }
+        member.getMemberSvc().setUpdateDatetime(LocalDateTime.now());
+
         return member;
+    }
+
+    public List<Member> findMembers() {
+        return memberRepository.findAll();
+    }
+
+    public Member findMember(Long id) {
+        return memberRepository.findOne(id);
+    }
+    @Transactional
+    public void deleteMember(Long id) {
+        Member member = memberRepository.findOne(id);
+        member.getMemberSvc().setDeleteDatetime(LocalDateTime.now());
     }
 
     private void validateDuplicateMember(Member member) {
@@ -59,13 +97,5 @@ public class MemberServiceImpl implements MemberService{
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
-    }
-
-    public List<Member> findMembers() {
-        return memberRepository.findAll();
-    }
-
-    public Member findOne(Long memberId) {
-        return memberRepository.findOne(memberId);
     }
 }

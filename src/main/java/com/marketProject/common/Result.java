@@ -1,4 +1,4 @@
-package com.marketProject.controller;
+package com.marketProject.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class Result<T> {
 
-    private int count;
-    private T data;
+    private T result;
 }
+

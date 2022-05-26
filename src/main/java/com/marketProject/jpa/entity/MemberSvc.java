@@ -1,10 +1,13 @@
-package com.marketProject.domain.jpa.entity;
+package com.marketProject.jpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static javax.persistence.FetchType.*;
 
@@ -26,6 +29,12 @@ public class MemberSvc extends BaseEntity{
     private int payCount;
     private Long payAmount;
 
-
+    public MemberSvc insertCreateDateTime(Member member, MemberSvc memberSvc) {
+        memberSvc.setId(member.getId());
+        memberSvc.setCreateDatetime(LocalDateTime.now());
+        memberSvc.setUpdateGradeDate(LocalDate.now());
+        memberSvc.setUpdatePwdDate(LocalDate.now());
+        return memberSvc;
+    }
 
 }
