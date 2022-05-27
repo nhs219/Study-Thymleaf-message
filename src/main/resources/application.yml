@@ -19,5 +19,7 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
-#    org.hibernate.trace: trace
+    org.apache.coyote.http11: info
+
 #    springboot-dataSource-decorator
+

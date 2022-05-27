@@ -6,12 +6,12 @@ import javax.validation.constraints.Size;
 
 @Data
 public class UpdateMemberRequest {
-    String name;
+    private String name;
     @Size(min = 9, max = 11)
-    String phone;
-    String zipcode;
-    String street;
-    String detailAddress;
+    private String phone;
+    private String zipcode;
+    private String street;
+    private String detailAddress;
     @Size(min = 8)
-    String password;
+    private String password;
 }

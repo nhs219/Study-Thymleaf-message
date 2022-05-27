@@ -1,4 +1,4 @@
-package com.marketProject.domain.jpa.entity;
+package com.marketProject.jpa.entity;
 
 import lombok.Getter;
 import lombok.Setter;
