@@ -7,6 +7,7 @@ import com.marketProject.jpa.entity.Member;
 import com.marketProject.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,7 @@ public class MemberApiController {
      * 나는 API를 개발해야하니까 구현한거 하나씩 고치기
      */
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/join")
     public Result saveMember(@RequestBody @Valid CreateMemberRequest request) {
         Member member = request.setMember();
@@ -46,6 +48,7 @@ public class MemberApiController {
         return new Result(response);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{memberId}")
     public Result updateMember(@PathVariable("memberId") Long id,
                                              @RequestBody @Valid UpdateMemberRequest request) {
@@ -54,6 +57,7 @@ public class MemberApiController {
         return new Result(response);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public ResultList findMembers() {
         List<Member> findMembers = memberService.findMembers();
@@ -63,6 +67,7 @@ public class MemberApiController {
         return new ResultList(collect.size(), collect);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{memberId}")
     public Result findMember(@PathVariable("memberId") Long id) {
 
@@ -72,6 +77,7 @@ public class MemberApiController {
         return new Result(response);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{memberId}")
     public void deleteMember(@PathVariable("memberId") Long id) {
         memberService.deleteMember(id);
