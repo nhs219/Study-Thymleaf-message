@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService{
         }
     }
 
-    public List<Product> findProducts() {
+    public List<Product> findProducts(String productCode) {
 
         return productRepository.findAll();
     }

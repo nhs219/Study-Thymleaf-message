@@ -24,8 +24,8 @@ public class ProductController {
 
     @GetMapping
     @ResponseBody
-    public List<Product> findProducts() {
-        return productService.findProducts();
+    public List<Product> findProducts(@RequestParam(required = false) String productCode) {
+        return productService.findProducts(productCode);
     }
 
     @GetMapping("/{productCode}")
