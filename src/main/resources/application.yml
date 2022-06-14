@@ -10,11 +10,13 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true #운영에서는 log로 찍어야함.
         format_sql: true
+  jwt:
+    secretKey: marketProject0219
 
 logging:
   level:
