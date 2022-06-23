@@ -15,6 +15,7 @@ spring:
       hibernate:
         show_sql: true #운영에서는 log로 찍어야함.
         format_sql: true
+        default_batch_fetch_size: 100
   jwt:
     secretKey: marketProject0219
 
