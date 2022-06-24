@@ -2,7 +2,6 @@ package com.marketProject.controller.member;
 
 import com.marketProject.common.Result;
 import com.marketProject.common.ResultList;
-import com.marketProject.domain.member.Login;
 import com.marketProject.jpa.entity.Member;
 import com.marketProject.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -18,15 +17,19 @@ import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
-@RequestMapping("/members")
 @RequiredArgsConstructor
 public class MemberApiController {
 
     private final MemberService memberService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody Login login) {
-        return memberService.login(login);
+    public ResponseEntity<String> login(@Valid @RequestBody LoginMember login) throws NoSuchFieldException {
+        return memberService.login(login.getEmail(), login.getPassword());
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout() {
+        return memberService.logout();
     }
 
     /**
@@ -49,7 +52,7 @@ public class MemberApiController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/{memberId}")
+    @PutMapping("/members/{memberId}")
     public Result updateMember(@PathVariable("memberId") Long id,
                                              @RequestBody @Valid UpdateMemberRequest request) {
         Member updateMember = memberService.updateMember(id, request);
@@ -58,7 +61,7 @@ public class MemberApiController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping
+    @GetMapping("/members")
     public ResultList findMembers() {
         List<Member> findMembers = memberService.findMembers();
         List<MemberDto> collect = findMembers.stream()
@@ -68,7 +71,7 @@ public class MemberApiController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{memberId}")
+    @GetMapping("/members/{memberId}")
     public Result findMember(@PathVariable("memberId") Long id) {
 
         Member findMember = memberService.findMember(id);
@@ -78,8 +81,9 @@ public class MemberApiController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{memberId}")
+    @DeleteMapping("/members/{memberId}")
     public void deleteMember(@PathVariable("memberId") Long id) {
         memberService.deleteMember(id);
     }
+
 }
