@@ -1,16 +1,21 @@
 package com.marketProject.jpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.marketProject.domain.member.Grade;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.*;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 
@@ -25,7 +30,11 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Getter @Setter
 @RequiredArgsConstructor
-public class Member {
+// 아래 두 어노테이션+ 위 어노테이션 차이 정리 필요.
+//@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Member implements UserDetails {
 
     @Id @GeneratedValue
     @Column(name = "member_id")
@@ -61,4 +70,42 @@ public class Member {
         return member;
     }
 
+    @ElementCollection(fetch = EAGER)
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+    }
+
+    @JsonProperty(access = WRITE_ONLY)
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @JsonProperty(access = WRITE_ONLY)
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @JsonProperty(access = WRITE_ONLY)
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @JsonProperty(access = WRITE_ONLY)
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @JsonProperty(access = WRITE_ONLY)
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }

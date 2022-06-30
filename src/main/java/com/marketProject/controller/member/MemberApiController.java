@@ -44,7 +44,7 @@ public class MemberApiController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/join")
-    public Result saveMember(@RequestBody @Valid CreateMemberRequest request) {
+    public Result joinMember(@RequestBody @Valid CreateMemberRequest request) {
         Member member = request.setMember();
         Member saveMember = memberService.join(member);
         CreateMemberResponse response = new CreateMemberResponse(saveMember.getId(), saveMember.getName(), saveMember.getEmail(), LocalDateTime.now());
